@@ -88,8 +88,9 @@ export default class App extends Component {
     if (isAddingCoins && isAddingGems) successText += " and ";
     if (isAddingGems) successText += `${gemNumber} gems`;
     successText += " to your account! ";
-    if (isAddingCoins) successText += `You now have ${newCoins} coins`;
-    if (isAddingCoins && isAddingGems) successText += "and ";
+    successText += "You now have ";
+    if (isAddingCoins) successText += `${newCoins} coins`;
+    if (isAddingCoins && isAddingGems) successText += " and ";
     if (isAddingGems) successText += `${newGems} gems`;
     successText += ".";
     this.setState({ addResourcesButtonText: "Add to Linked Account", addResourcesSuccessText: successText, addResourcesErrorText: null });
