@@ -4,4 +4,4 @@ Free account tools to interact with and exploit TacticalDuty.io servers. This pr
 
 ## Is it Safe?
 
-It's open source software, see for yourself.
+It's literally open source, see for yourself.
