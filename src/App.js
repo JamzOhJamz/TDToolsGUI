@@ -8,7 +8,7 @@ export default class App extends Component {
     this.state = {
       linkButtonText: "Link Account",
       addResourcesButtonText: "Add to Linked Account",
-      unlockAllButtonText: "Unlock All Chest Cosmetics on Linked Account",
+      unlockAllButtonText: "Unlock All Free Cosmetics on Linked Account",
       linkErrorText: null,
       addResourcesSuccessText: null,
       addResourcesErrorText: null,
@@ -125,6 +125,14 @@ export default class App extends Component {
       },
       body: JSON.stringify({ "StoreId": "Chest", "CatalogVersion": "Knives" })
     });
+    const weaponSkinsResult = await fetch('https://65cb9.playfabapi.com/Client/GetCatalogItems', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Authorization': this.state.linkedAccountSessionTicket
+      },
+      body: JSON.stringify({ "CatalogVersion": "Weapon skins" })
+    });
     this.setState({ unlockAllButtonText: `Unlocking skins...` });
     for (const skin of (await skinsResult.json()).data.Store) {
       const purchaseResult = await fetch('https://65cb9.playfabapi.com/Client/PurchaseItem', {
@@ -149,7 +157,21 @@ export default class App extends Component {
       });
       console.log(await purchaseResult.json());
     }
-    this.setState({ unlockAllButtonText: "Unlock All Chest Cosmetics on Linked Account", unlockAllSuccessText: "Successfully unlocked all items!", unlockAllErrorText: null });
+    this.setState({ unlockAllButtonText: `Unlocking weapon skins...` });
+    for (const weaponSkin of (await weaponSkinsResult.json()).data.Catalog) {
+      if (weaponSkin.VirtualCurrencyPrices.CR === 0) {
+        const purchaseResult = await fetch('https://65cb9.playfabapi.com/Client/PurchaseItem', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Authorization': this.state.linkedAccountSessionTicket
+          },
+          body: JSON.stringify({ "CatalogVersion": "Weapon skins", "ItemId": weaponSkin.ItemId, "VirtualCurrency": "CR", "Price": 0 })
+        });
+        console.log(await purchaseResult.json());
+      }
+    }
+    this.setState({ unlockAllButtonText: "Unlock All Free Cosmetics on Linked Account", unlockAllSuccessText: "Successfully unlocked all free cosmetics!", unlockAllErrorText: null });
   }
 
   render() {
@@ -222,15 +244,15 @@ export default class App extends Component {
           <div class="m-auto w-3/6 p-14 mt-10 mb-10 bg-gray-400 text-gray-200 text-center rounded-lg">
             <div class="flex h-full justify-center items-center flex-wrap">
               <div class="w-full">
-                <h1 class="text-4xl w-full font-bold">Unlock All Chest Cosmetics</h1>
+                <h1 class="text-4xl w-full font-bold">Unlock All Free Cosmetics</h1>
                 {hasLinkedAccount
-                  ? (<><p class="text-xl mt-7 text-gray-100">Get all available chest cosmetics added to your account for free!</p>
+                  ? (<><p class="text-xl mt-7 text-gray-100">Get all available free cosmetics added to your account!</p>
                     <form onSubmit={this.handleUnlockAll}>
                       {unlockAllSuccessText !== null ? <p class="text-xl mt-7 text-success text-center">{unlockAllSuccessText}</p> : null}
                       {unlockAllErrorText !== null ? <p class="text-xl mt-7 text-error text-center">{unlockAllErrorText}</p> : null}
                       <button class="text-xl text-white bg-gray-300 p-5 rounded-lg w-full mt-7">{unlockAllButtonText}</button>
                     </form></>)
-                  : <p class="text-xl mt-7 text-gray-100">You must first link your account above before you can unlock all chest cosmetics.</p>
+                  : <p class="text-xl mt-7 text-gray-100">You must first link your account above before you can unlock all free cosmetics.</p>
                 }
               </div>
             </div>
