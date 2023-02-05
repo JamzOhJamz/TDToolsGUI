@@ -4,6 +4,33 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap');
 
+@layer components {
+  .sidebar-icon {
+    @apply relative flex items-center justify-center
+    h-14 w-14 mt-2 mb-2 mx-auto shadow-lg
+    bg-gray-300 text-primary
+    hover:bg-primary hover:text-white
+    rounded-3xl hover:rounded-xl
+    transition-all duration-100 ease-linear
+    cursor-pointer;
+  }
+
+  .sidebar-icon-selected {
+    @apply relative flex items-center justify-center
+    h-14 w-14 mt-2 mb-2 mx-auto shadow-lg
+    bg-primary text-white
+    rounded-xl cursor-pointer;
+  }
+
+  .sidebar-tooltip {
+    @apply absolute w-auto p-2 m-2 min-w-max left-[76px]
+    rounded-md shadow-md
+    text-white bg-gray-400
+    text-sm font-bold
+    transition-all duration-100 scale-0 origin-left;
+  }
+}
+
 body {
   @apply bg-gray-500;
   @apply text-gray-200;
