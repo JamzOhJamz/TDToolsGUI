@@ -199,7 +199,7 @@ export default class App extends Component {
             <div class="flex h-full justify-center items-center flex-wrap">
               <div class="w-full">
                 <h1 class="text-4xl w-full font-bold">Add Currency</h1>
-                {hasLinkedAccount
+                {<div class={`text-xl mt-10 text-white bg-error p-5 rounded-lg w-full`}>This tool is currently down, check back later!</div>/*hasLinkedAccount
                   ? (<><p class="text-xl mt-7 text-gray-100">Add any amount of coins and/or gems to your account!</p>
                     <form class="mt-10" onSubmit={this.handleAddResources}>
                       <div className="input-group">
@@ -215,7 +215,7 @@ export default class App extends Component {
                       <button class="mt-11 text-xl text-white bg-gray-300 p-5 rounded-lg w-full">{addResourcesButtonText}</button>
                     </form></>)
                   : <p class="text-xl mt-7 text-gray-100">You must first link your account above before you can add currency.</p>
-                }
+    */}
               </div>
             </div>
           </div>
